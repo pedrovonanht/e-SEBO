@@ -24,10 +24,10 @@ while (true) {
     console.log("Opção 4: Visualizar carrinho")
     console.log("Opção 5: Finalizar Compra")
     console.log("Opção 6: Voltar")
-    console.log("Opção 7: Sair do programa")
+    console.log("Opção 9: Sair do programa")
 
     const resposta: number = +prompt("Sua escolha: ");
-    if (resposta == 7) {
+    if (resposta == 9) {
         break
     }
     if (resposta == 6) {
