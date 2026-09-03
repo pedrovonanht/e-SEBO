@@ -11,6 +11,7 @@
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "@types/node": "^26.4.0",
     "@types/prompt-sync": "^4.2.3",
     "typescript": "^7.0.2"
   },

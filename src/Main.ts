@@ -1,17 +1,55 @@
 import PromptSync from "prompt-sync";
-import Produto  from "./produto.ts";
+import Livro  from "./livro.ts";
+import {Anuncio}  from "./anuncios.ts";
+import fs from 'node:fs';
+import {Conta}  from "./conta.ts";
+import { Autor } from "./autor.ts";
 
 const prompt = PromptSync({ sigint: true });
 
-console.log("Olá edécio!")
 
 const nome: string = "Edécio";
 
-const p: Produto = new Produto();
-p.preco = 80.00;
-p.nome = "Senhor dos Aneis";
-p.descricao = "Livro de Tokien"
 
+const anuncios: Anuncio[] = []
+
+function anunciar() {
+    const titulo: string = prompt("Título: ")
+    const autor: string = prompt("Autor(a): ")
+    const descricao: string = prompt("Descrição: ")
+    const autores:Autor[] = [autor]
+    
+    const l: Livro = new Livro({nome: titulo, autores:autores, descricao})
+    const anuncio: Anuncio = new Anuncio({livro:l, dono: userAcount, preco: 89, qualidade:"Excelente"})
+    anuncios.push(anuncio)
+}
+
+
+function listar() {
+    anuncios.map((anuncio) => console.log(`${anuncio} \n ---`))
+    prompt("Digite algo para sair: ")
+}
+
+let userAcount:Conta;
+function criarConta () {
+
+const loadedConfigs:string = fs.readFileSync("./src/db_temporario", "utf-8")
+console.log(loadedConfigs)
+if(loadedConfigs.length == 0){
+const nome:string = prompt("Nome da conta: ")
+const cpf:number = +prompt("CPF: ")
+const telefone:number = +prompt("Telefone: ")
+userAcount = new Conta({nome, cpf, telefone})
+const text:string = nome+"\n"+cpf+"\n"+telefone+"\n"
+fs.writeFileSync("./src/db_temporario", text)
+} else if (loadedConfigs.length == 3) {
+    const userConfigs:string[] = loadedConfigs.split("\n")
+    userAcount = new Conta({nome:userConfigs[0]||"", cpf:userConfigs[1]||"", telefone:userConfigs[2]||""})
+    
+}
+
+}
+criarConta();
 let MenuChoice: number = +prompt("Se você quer acessar o menu de comprador digite 1 senão digite 2.");
 while (true) {
     if(MenuChoice==1) {
@@ -57,9 +95,11 @@ if (MenuChoice == 2) {
         console.clear
         MenuChoice = +prompt("Se você quer acessar o menu de comprador digite 1 senão digite 2.");
     }
+    if (resposta == 1) {
+        anunciar();
+    }
+    if (resposta == 0) {
+        listar();
+    }
 }
 }
-
-
-
-
