@@ -15,9 +15,17 @@ const anuncios: Anuncio[] = []
 
 function anunciar() {
     const titulo: string = prompt("Título: ")
-    const autor: string = prompt("Autor(a): ")
+    let autores:Autor[] = [];
+    while (true) {
+    const autorNome: string = prompt("Autor(a): ")
+    const autor:Autor = new Autor({nome: autorNome});
+    autores.push(autor)
+    const resposta:string = prompt("Quer adicionar mais algum autor? (S/N) ").toLocaleLowerCase()
+    if(resposta == "n") {
+        break
+    }
+    }
     const descricao: string = prompt("Descrição: ")
-    const autores:Autor[] = [autor]
     
     const l: Livro = new Livro({nome: titulo, autores:autores, descricao})
     const anuncio: Anuncio = new Anuncio({livro:l, dono: userAcount, preco: 89, qualidade:"Excelente"})
@@ -26,7 +34,7 @@ function anunciar() {
 
 
 function listar() {
-    anuncios.map((anuncio) => console.log(`${anuncio} \n ---`))
+    anuncios.map((anuncio) => console.log(`${JSON.stringify(anuncio)} \n ---`))
     prompt("Digite algo para sair: ")
 }
 
