@@ -10,7 +10,6 @@ const prompt = PromptSync({ sigint: true });
 
 const nome: string = "Edécio";
 
-const anuncios: Anuncio[] = [];
 
 function anunciar() {
   const titulo: string = prompt("Título: ");
@@ -35,9 +34,7 @@ function anunciar() {
     preco: 89,
     qualidade: "Excelente",
   });
-  anuncios.push(anuncio);
 
-  fs.writeFileSync("./catalogo.json", JSON.stringify(anuncios,null,2))
 }
 
 function listar() {
@@ -47,6 +44,8 @@ function listar() {
 
   let contador = 0;
 
+
+  const anuncios = Anuncio.listarAnuncios();
   for (let i = 0; i < anuncios.length; i++) {
     contador++;
 
@@ -71,8 +70,9 @@ function listar() {
 }
 
 function desativa() {
+  const anuncios:Anuncio[] = Anuncio.listarAnuncios(); 
   anuncios.map((anuncio, indice) => {
-    console.log(`${indice} - ${anuncio.livro}`);
+    console.log(`${indice} - ${JSON.stringify(anuncio.livro)}`);
   });
   const resposta: number = +prompt("Você quer desativar qual anuncio seu? ");
   anuncios[resposta]?.desativaAnuncio();
@@ -81,7 +81,7 @@ function desativa() {
 
 
 
-let userAcount:Conta = criarConta();
+let userAcount:Conta = criarConta()!;
 
 let MenuChoice: number = +prompt(
   "Se você quer acessar o menu de comprador digite 1 senão digite 2. ",
