@@ -4,46 +4,57 @@ import { Conta } from "../conta.ts";
 
 const prompt = PromptSync({ sigint: true });
 
-export default function criarConta() {
-  const loadedConfigs: string = fs.readFileSync("./src/db_temporario", "utf-8");
-  const userConfigs: string[] = loadedConfigs
-    .split("\n")
-    .filter((item) => item != "");
+function login(userConfigs: Conta[]): Conta[] {
+  console.log("------Login-----");
+  const nome: string = prompt("Nome da conta: ");
+  const cpf: number = +prompt("CPF: ");
+  const telefone: number = +prompt("Telefone: ");
+  const userAcount: Conta = new Conta({ nome, cpf, telefone });
 
-  function login() {
-    console.log("------Login-----");
-    const nome: string = prompt("Nome da conta: ");
-    const cpf: number = +prompt("CPF: ");
-    const telefone: number = +prompt("Telefone: ");
-    const userAcount: Conta = new Conta({ nome, cpf, telefone });
-    const text: string = nome + "\n" + cpf + "\n" + telefone + "\n";
-    fs.writeFileSync("./src/db_temporario", text);
-  }
+  // const text: string = nome + "\n" + cpf + "\n" + telefone + "\n";
+
+  userConfigs.push(userAcount);
+  fs.writeFileSync(
+    "./src/db.json",
+    JSON.stringify(userConfigs, null, 2),
+    "utf-8",
+  );
+  return userConfigs;
+}
+
+export default function criarConta() {
+  const loadedConfigs: string = fs.readFileSync("./src/db.json", "utf-8");
+  let userConfigs: Conta[];
 
   if (loadedConfigs.length == 0) {
-    login();
-  } else if (userConfigs.length >= 3) {
+    userConfigs = login([]);
+  } else if (loadedConfigs.length > 0) {
+    userConfigs = JSON.parse(loadedConfigs);
+    
+    
     const resposta: string = prompt(
-      `Detectamos ${userConfigs.length / 3} conta(s) salvas. Você quer seguir com alguma delas? (S/N) `,
+      `Detectamos ${userConfigs.length} conta(s) salvas. Você quer seguir com alguma delas? (S/N) `,
     ).toLocaleLowerCase();
 
     if (resposta == "n") {
-      login();
+      login(userConfigs);
       return;
     }
 
-    for (let i = 0; i < userConfigs.length; i += 3) {
-      console.log(`${Math.floor(i / 3)} - ${userConfigs[i]}`);
+    let index: number = 0;
+    for (let conta of userConfigs) {
+      index += 1;
+      console.log(`${index} - ${conta.nome}`);
     }
 
-    const contaEscolhida: number = +prompt("Qual conta você quer usar? ");
+    const contaEscolhida = prompt("Qual conta você quer usar? ")!;
 
-    return new Conta({
-      nome: userConfigs[contaEscolhida * 3] || "",
-      cpf: userConfigs[contaEscolhida * 3 + 1] || "",
-      telefone: userConfigs[contaEscolhida * 3 + 2] || "",
-    });
+    const indice: number = +contaEscolhida - 1;
+
+    if (!userConfigs[indice]) {
+      return;
+    }
+    return new Conta(userConfigs[indice]);
   }
 }
 
-criarConta()

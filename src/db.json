@@ -1,0 +1,20 @@
+[
+  {
+    "nome": "bernardo",
+    "cpf": "2344",
+    "telefone": "3445",
+    "endereco": ""
+  },
+  {
+    "nome": "pedro",
+    "cpf": "345",
+    "telefone": "2134",
+    "endereco": ""
+  },
+  {
+    "nome": "carlos",
+    "cpf": "3474910060",
+    "telefone": "123123",
+    "endereco": ""
+  }
+]
