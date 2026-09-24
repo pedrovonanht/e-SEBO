@@ -15,15 +15,16 @@
     "@babel/preset-env": "^8.0.5",
     "@babel/preset-typescript": "^8.0.1",
     "@jest/globals": "^30.5.1",
+    "@types/better-sqlite3": "^9.6.0",
     "@types/jest": "^30.0.0",
-    "@types/node": "^26.4.0",
     "@types/prompt-sync": "^4.2.3",
     "babel-jest": "^30.5.1",
-    "jest": "^30.5.1",
-    "typescript": "^7.0.2"
+    "jest": "^30.5.1"
   },
   "dependencies": {
     "@faker-js/faker": "^10.6.0",
-    "prompt-sync": "^4.2.0"
+    "better-sqlite3": "^13.0.3",
+    "prompt-sync": "^4.2.0",
+    "uuid": "^14.0.2"
   }
 }
