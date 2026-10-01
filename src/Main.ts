@@ -10,7 +10,6 @@ const prompt = PromptSync({ sigint: true });
 
 const nome: string = "Edécio";
 
-
 function anunciar() {
   const titulo: string = prompt("Título: ");
   let autores: Autor[] = [];

@@ -2,18 +2,30 @@ import { Autor } from "./autor.ts";
 
 export default class Livro {
     //atributos
-    nome: string;
-    descricao: string;
-    autores: Autor[];
+    private _nome: string;
+    private _descricao: string;
+    private _autores: Autor[];
 
     constructor ({nome, autores, descricao}: {
         nome: string,
         autores: Autor[],
         descricao: string 
     }  ) {
-        this.nome = nome;
-        this.descricao = descricao || "",
-        this.autores = autores;
+        this._nome = nome;
+        this._descricao = descricao || "",
+        this._autores = autores;
+    }
+
+    public get nome() {
+        return this._nome;
+    }
+
+    public get descricao () {
+        return this._descricao;
+    }
+
+    public get autores() {
+        return this._autores;
     }
 
     adicionaAutor(autor:Autor):void{

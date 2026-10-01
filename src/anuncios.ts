@@ -10,53 +10,76 @@ interface anuncioObj {
 }
 
 export class Anuncio {
-    dono: Conta
-    livro: Livro
-    preco: number
-    desconto: number
-    qualidade: string
-    ativo: boolean
+    private _dono: Conta
+    private _livro: Livro
+    private _preco: number
+    private _desconto: number
+    private _qualidade: string
+    private _ativo: boolean
 
-
-   
 
     private static anuncios:Anuncio[] = [];
+   
+
     constructor ({dono, livro, preco, qualidade, ativo}:anuncioObj){
         this.validaPreco(preco)
-        this.dono = dono,
-        this.livro = livro,
-        this.preco = preco,
-        this.qualidade = qualidade,
-        this.ativo = ativo || true,
-        this.desconto = 0
+        this._dono = dono,
+        this._livro = livro,
+        this._preco = preco,
+        this._qualidade = qualidade,
+        this._ativo = ativo || true,
+        this._desconto = 0
         Anuncio.anuncios.push(this);
     }
 
+    public set preco(preco: number) {
+        this._preco = preco
+    }
+    
+    public get preco() {
+        return this._preco
+    }
 
-    static listarAnuncios():Anuncio[] {
+    public get livro() {
+        return this._livro;
+    }
+
+    public get qualidade() {
+        return this._qualidade;
+    }
+
+    public set desconto(desconto: number) {
+        this._desconto = desconto
+    }
+
+    public get desconto() {
+        return this._desconto
+    }
+
+
+    public static listarAnuncios():Anuncio[] {
         return this.anuncios;
     }
 
-    static limparListaAnuncios():void {
+    public static limparListaAnuncios():void {
         Anuncio.anuncios=[];
     }
 
-    validaPreco(preco:number):void{
+    private validaPreco(preco:number):void{
         if(preco < 0){
             throw new Error("Preço inválido")
         }
     }
 
-    aplicarDesconto({porcentagemDesconto}:{porcentagemDesconto: number}):void {
-        this.desconto = porcentagemDesconto;
+    public aplicarDesconto({porcentagemDesconto}:{porcentagemDesconto: number}):void {
+        this._desconto = porcentagemDesconto;
     }
 
-    precoVenda():number {
-        return this.preco*((100-this.desconto)/100)
+    public precoVenda():number {
+        return this._preco*((100-this._desconto)/100)
     }
     
-    desativaAnuncio():void{
-        this.ativo=false;
+    public desativaAnuncio():void{
+        this._ativo=false;
     }
-
 }
