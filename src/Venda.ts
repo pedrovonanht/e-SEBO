@@ -1,5 +1,7 @@
 import { Conta } from "./conta.ts";
 import Livro from "./livro.ts";
+import { Autor } from "./autor.ts";
+import db from "./infra/database.ts";
 
 interface vendaObj {
   cliente: Conta,
@@ -34,4 +36,32 @@ export class Venda {
   public set codigo(valor){
     this._codigo = valor
   }
+
+  public RealizarVenda() {
+    db.prepare(`
+      insert into Livros (titulo, genero, sinopse, lingua)
+      values (?, ?, ?, ?)
+      `).run(
+        this.livro.nome,
+        "ação",
+        this.livro.descricao,
+        "portugues"
+      )
+
+      const resposta = db.prepare(`
+        SELECT * FROM livros`).all();
+
+        console.log(resposta)
+  }
 }
+
+const Autor1: Autor = new Autor({nome:"joão",})
+const Autor2: Autor = new Autor({nome:"joão gabriel",})
+const livro1: Livro = new Livro({nome:"pedro", autores:[Autor1], descricao:"qualqeu coisa"})
+const conta1: Conta = new Conta({nome: "gabriel", cpf:"1111111111", telefone:"5312121212",})
+const Venda1: Venda = new Venda({cliente:conta1, livro:livro1})
+
+livro1.adicionaAutor(Autor2)
+console.log(livro1)
+
+Venda1.RealizarVenda()

@@ -74,15 +74,19 @@ export class Anuncio {
         }
     }
 
+    public set desconto (desconto: number) {
+        this._desconto = desconto
+    }
+
     public aplicarDesconto({porcentagemDesconto}:{porcentagemDesconto: number}):void {
         this._desconto = porcentagemDesconto;
-    }
+    } 
 
     public precoVenda():number {
         return this._preco*((100-this._desconto)/100)
     }
     
     public desativaAnuncio():void{
-        this._ativo=false;
+        this._ativo = false;
     }
 }

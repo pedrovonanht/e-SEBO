@@ -23,6 +23,7 @@ export class Autor {
     public get nascimento(): Date {
         return this._nascimento;
     }
+    
 
     // esse set não faz nada (ainda)
     public set nascimento(nascimento: Date) {

@@ -9,7 +9,7 @@ export default class Livro {
     constructor ({nome, autores, descricao}: {
         nome: string,
         autores: Autor[],
-        descricao: string 
+        descricao: string
     }  ) {
         this._nome = nome;
         this._descricao = descricao || "",

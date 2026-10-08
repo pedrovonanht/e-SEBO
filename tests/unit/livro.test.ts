@@ -10,6 +10,7 @@ describe("Quando manipular um Livro", () => {
         const livro1:Livro = new Livro({nome:"Senhor dos pasteis", descricao: "Livro bom", autores:[autor]})
 //action
 //assertions (expects)
-        expect(() => {livro1.nome = "Jefferson"}).toThrow();
+// @ts-ignore      
+expect(() => {livro1.nome = "Jefferson"}).toThrow();
     })
 })

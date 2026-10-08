@@ -89,11 +89,37 @@ function listar() {
 
 function desativa() {
   const anuncios: Anuncio[] = Anuncio.listarAnuncios();
-  anuncios.map((anuncio, indice) => {
-    console.log(`${indice} - ${JSON.stringify(anuncio.livro.nome)}`);
-  });
-  const resposta: number = +prompt("Você quer desativar qual anuncio seu? ");
-  anuncios[resposta]?.desativaAnuncio();
+  let desativar = true
+
+  while (desativar) {
+    anuncios.map((anuncio, indice) => {
+      console.log(`${indice} - ${JSON.stringify(anuncio.livro.nome)}`);
+    });
+    console.log(`${anuncios.length} - Voltar`)
+    
+    while (true) {
+      const resposta: string = prompt("Escolha uma Opção: ");
+      console.clear()
+      if (resposta == null || resposta == "") {
+        console.log("Escolha um Anúncio para desativar ou Retorne ao Menu")
+        break
+      }
+      const respostaNumero: number = Number(resposta)
+      if (Number.isNaN(respostaNumero) || respostaNumero > anuncios.length) {
+        console.log("Resposta Inválida")
+        break
+      } else if (respostaNumero < anuncios.length) {
+        anuncios[respostaNumero]?.desativaAnuncio();
+        console.log(`O anúncio de ${anuncios[respostaNumero]?.livro.nome} foi desativado`)
+        desativar = false
+        prompt("Digite algo para sair: ")
+        break
+      } else {
+        desativar = false
+        break
+      }
+    }
+  }
 }
 
 let userAcount: Conta = criarConta()!;
@@ -117,7 +143,7 @@ while (true) {
 
     const resposta: number = +prompt("Sua escolha: ");
     if (resposta == 6) {
-      console.clear;
+      console.clear();
       
       console.log("1 - Comprador")
       console.log("2 - Vendedor")
@@ -153,7 +179,7 @@ while (true) {
       desativa();
     }
     if (resposta == 7) {
-      console.clear;
+      console.clear();
             
       console.log("1 - Comprador")
       console.log("2 - Vendedor")
