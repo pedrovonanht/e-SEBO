@@ -9,22 +9,23 @@ export class Autor {
         this._nascimento = nascimento || new Date(Date.now());
         this._nome = nome;
     }
+
     public get nome(): string {
-        return this.nome;
+        return this._nome;
     }
 
     public set nome(nome: string) {
         if (nome.length >= 3 && nome.length <= 80) {
-            this.nome = nome;
+            this._nome = nome;
         } else throw new Error('O nome deve ter entre 3 e 80 caracteres');
     }
 
     public get nascimento(): Date {
-        return this.nascimento;
+        return this._nascimento;
     }
 
     // esse set não faz nada (ainda)
     public set nascimento(nascimento: Date) {
-        this.nascimento = nascimento;
+        this._nascimento = nascimento;
     }
 }
