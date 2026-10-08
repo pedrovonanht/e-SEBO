@@ -13,15 +13,27 @@ const nome: string = "Edécio";
 function anunciar() {
   const titulo: string = prompt("Título: ");
   let autores: Autor[] = [];
-  while (true) {
+  
+  let continuar = true
+  while (continuar) {
     const autorNome: string = prompt("Autor(a): ");
     const autor: Autor = new Autor({ nome: autorNome });
     autores.push(autor);
-    const resposta: string = prompt(
-      "Quer adicionar mais algum autor? (S/N) ",
-    ).toLocaleLowerCase();
-    if (resposta == "n") {
-      break;
+    while (true) {
+        const resposta: string = prompt(
+            "Quer adicionar mais algum autor? (S/N) ",
+        ).toLocaleLowerCase();
+
+        if (resposta === "s") {
+            break;
+        }
+
+        if (resposta === "n") {
+            continuar = false;
+            break;
+        }
+
+        console.log("Resposta inválida. Digite S ou N.");
     }
   }
   const descricao: string = prompt("Descrição: ");
@@ -38,7 +50,7 @@ function anunciar() {
 
 function listar() {
   console.log(
-    "Pos.|                Livros            |            Autores            | Preço | Qualidade |",
+    "Pos.|                Livros            |            Autores           | Preço | Qualidade | Status |",
   );
 
   let contador = 0;
@@ -58,9 +70,16 @@ function listar() {
     }
 
     let valor = `R$ ${anuncios[i]?.preco}`
+    let status
+
+    if (anuncios[i]?.ativo == true) {
+      status = "Ativo"
+    } else {
+      status = "Inativo"
+    }
 
     console.log(
-      `${String(contador).padStart(4)}|${anuncios[i]?.livro.nome.padEnd(34)}| ${stringAutores.padEnd(30)}|${valor.padStart(7)}|${anuncios[i]?.qualidade.padStart(11)}|`,
+      `${String(contador).padEnd(4)}|${anuncios[i]?.livro.nome.padEnd(34)}|${stringAutores.padEnd(30)}|${valor.padStart(7)}|${anuncios[i]?.qualidade.padStart(11)}|${status.padStart(8)}|`,
     );
   }
 
@@ -69,22 +88,19 @@ function listar() {
 }
 
 function desativa() {
-  const anuncios:Anuncio[] = Anuncio.listarAnuncios(); 
+  const anuncios: Anuncio[] = Anuncio.listarAnuncios();
   anuncios.map((anuncio, indice) => {
-    console.log(`${indice} - ${JSON.stringify(anuncio.livro)}`);
+    console.log(`${indice} - ${JSON.stringify(anuncio.livro.nome)}`);
   });
   const resposta: number = +prompt("Você quer desativar qual anuncio seu? ");
   anuncios[resposta]?.desativaAnuncio();
 }
 
+let userAcount: Conta = criarConta()!;
 
-
-
-let userAcount:Conta = criarConta()!;
-
-let MenuChoice: number = +prompt(
-  "Se você quer acessar o menu de comprador digite 1 senão digite 2. ",
-);
+console.log("1 - Comprador")
+console.log("2 - Vendedor")
+let MenuChoice: number = +prompt("");
 
 while (true) {
   if (MenuChoice == 1) {
@@ -100,16 +116,18 @@ while (true) {
     console.log("Opção 9: Sair do programa");
 
     const resposta: number = +prompt("Sua escolha: ");
+    if (resposta == 6) {
+      console.clear;
+      
+      console.log("1 - Comprador")
+      console.log("2 - Vendedor")
+      MenuChoice = +prompt("");
+    }
     if (resposta == 9) {
       break;
     }
-    if (resposta == 6) {
-      console.clear;
-      MenuChoice = +prompt(
-        "Se você quer acessar o menu de comprador digite 1 senão digite 2.",
-      );
-    }
   }
+  
   if (MenuChoice == 2) {
     console.clear();
     console.log("Vendedor");
@@ -129,19 +147,20 @@ while (true) {
       listar();
     }
     if (resposta == 1) {
-        anunciar();
+      anunciar();
     }
     if (resposta == 3) {
-        desativa();
+      desativa();
     }
     if (resposta == 7) {
-        console.clear;
-        MenuChoice = +prompt(
-            "Se você quer acessar o menu de comprador digite 1 senão digite 2.",
-        );
+      console.clear;
+            
+      console.log("1 - Comprador")
+      console.log("2 - Vendedor")
+      MenuChoice = +prompt("");
     }
     if (resposta == 8) {
       break;
     }
-}
+  }
 }

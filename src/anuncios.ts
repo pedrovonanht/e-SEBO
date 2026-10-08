@@ -32,14 +32,18 @@ export class Anuncio {
         Anuncio.anuncios.push(this);
     }
 
-    public set preco(preco: number) {
-        this._preco = preco
+    public get dono() {
+        return this._dono
     }
-    
+
     public get preco() {
         return this._preco
     }
 
+    public set preco(preco: number) {
+        this._preco = preco
+    }
+    
     public get livro() {
         return this._livro;
     }
@@ -48,14 +52,13 @@ export class Anuncio {
         return this._qualidade;
     }
 
-    public set desconto(desconto: number) {
-        this._desconto = desconto
-    }
-
     public get desconto() {
         return this._desconto
     }
 
+    public get ativo() {
+        return this._ativo
+    }
 
     public static listarAnuncios():Anuncio[] {
         return this.anuncios;
